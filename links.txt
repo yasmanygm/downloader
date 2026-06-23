@@ -1,7 +1,1 @@
-https://download.oracle.com/java/21/latest/jdk-21_linux-x64_bin.deb
-https://download.docker.com/linux/ubuntu/dists/noble/pool/stable/amd64/containerd.io_1.7.27-1_amd64.deb
-https://download.docker.com/linux/ubuntu/dists/noble/pool/stable/amd64/docker-ce-cli_28.5.2-1~ubuntu.24.04~noble_amd64.deb
-https://download.docker.com/linux/ubuntu/dists/noble/pool/stable/amd64/docker-ce_28.5.2-1~ubuntu.24.04~noble_amd64.deb
-https://download.docker.com/linux/ubuntu/dists/noble/pool/stable/amd64/docker-buildx-plugin_0.22.0-1~ubuntu.24.04~noble_amd64.deb
-https://download.docker.com/linux/ubuntu/dists/noble/pool/stable/amd64/docker-compose-plugin_5.0.0-1~ubuntu.24.04~noble_amd64.deb
-https://download.docker.com/linux/ubuntu/dists/noble/pool/stable/amd64/docker-ce-rootless-extras_28.5.2-1~ubuntu.24.04~noble_amd64.deb
+https://artifacts.elastic.co/downloads/kibana/kibana-8.11.3-amd64.deb
