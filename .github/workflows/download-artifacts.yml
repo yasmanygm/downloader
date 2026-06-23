@@ -1,0 +1,45 @@
+name: Download Individual Artifacts
+
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  extract-links:
+    runs-on: ubuntu-latest
+    outputs:
+      links: ${{ steps.get-links.outputs.links }}
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+    
+    - name: Extract links from file
+      id: get-links
+      run: |
+        # Leer enlaces y convertirlos a JSON
+        links_json=$(grep -v '^#' links.txt | grep -v '^$' | jq -R . | jq -s .)
+        echo "links=$links_json" >> $GITHUB_OUTPUT
+
+  download:
+    needs: extract-links
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        url: ${{ fromJson(needs.extract-links.outputs.links) }}
+      fail-fast: false
+    
+    steps:
+    - name: Download file
+      run: |
+        filename=$(basename "${{ matrix.url }}")
+        echo "Descargando: ${{ matrix.url }}"
+        curl -L -o "$filename" "${{ matrix.url }}"
+        echo "file_name=$filename" >> $GITHUB_ENV
+    
+    - name: Upload artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: ${{ env.file_name }}
+        path: ${{ env.file_name }}
+        if-no-files-found: error
