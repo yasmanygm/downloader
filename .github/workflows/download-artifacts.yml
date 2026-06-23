@@ -6,40 +6,52 @@ on:
   workflow_dispatch:
 
 jobs:
-  extract-links:
+  download:
     runs-on: ubuntu-latest
-    outputs:
-      links: ${{ steps.get-links.outputs.links }}
+    
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v5  # 👈 Actualizado a v5
+      uses: actions/checkout@v5
     
-    - name: Extract links from file
-      id: get-links
+    - name: Create download directory
+      run: mkdir -p downloads
+    
+    - name: Download files from links
       run: |
-        # Leer enlaces y convertirlos a JSON
-        links_json=$(grep -v '^#' links.txt | grep -v '^$' | jq -R . | jq -s .)
-        echo "links=$links_json" >> $GITHUB_OUTPUT
-
-  download:
-    needs: extract-links
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        url: ${{ fromJson(needs.extract-links.outputs.links) }}
-      fail-fast: false
+        # Limpiar y procesar cada línea
+        while IFS= read -r line || [ -n "$line" ]; do
+          # Limpiar la línea: eliminar BOM, retornos, espacios, comillas y comas
+          url=$(echo "$line" | \
+            tr -d '\r' | \
+            sed '1s/^\xEF\xBB\xBF//' | \
+            sed 's/^[[:space:]]*"*//' | \
+            sed 's/"*[[:space:]]*$//' | \
+            sed 's/^[[:space:]]*//' | \
+            sed 's/[[:space:]]*$//' | \
+            sed 's/,$//')
+          
+          # Saltar líneas vacías y comentarios
+          if [[ -z "$url" || "$url" =~ ^[[:space:]]*# ]]; then
+            continue
+          fi
+          
+          filename=$(basename "$url")
+          echo "Descargando: $url → $filename"
+          
+          if curl -L --fail --progress-bar -o "downloads/$filename" "$url"; then
+            echo "✅ Descargado: $filename"
+          else
+            echo "❌ Error descargando: $url"
+          fi
+        done < links.txt
+        
+        echo ""
+        echo "📦 Archivos descargados:"
+        ls -la downloads/
     
-    steps:
-    - name: Download file
-      run: |
-        filename=$(basename "${{ matrix.url }}")
-        echo "Descargando: ${{ matrix.url }}"
-        curl -L -o "$filename" "${{ matrix.url }}"
-        echo "file_name=$filename" >> $GITHUB_ENV
-    
-    - name: Upload artifact
+    - name: Upload all artifacts
       uses: actions/upload-artifact@v4
       with:
-        name: ${{ env.file_name }}
-        path: ${{ env.file_name }}
+        name: downloaded-files
+        path: downloads/
         if-no-files-found: error
