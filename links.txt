@@ -1,1 +1,1 @@
-https://download.oracle.com/java/21/latest/jdk-21_linux-x64_bin.deb
+ftp://ftp.icm.edu.pl/vol/rzm5/linux-centos-vault/7.0.1406/os/x86_64/Packages/tree-1.6.0-10.el7.x86_64.rpm
