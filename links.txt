@@ -1,1 +1,1 @@
-https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_3.47.0-stable.tar.xz
+https://ollama.com/download/ollama-linux-amd64.tar.zst
