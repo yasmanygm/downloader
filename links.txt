@@ -1,1 +1,5 @@
-https://ollama.com/download/ollama-linux-amd64.tar.zst
+https://download.docker.com/linux/ubuntu/pool/stable/amd64/containerd.io_1.7.24-1_amd64.deb
+https://download.docker.com/linux/ubuntu/pool/stable/amd64/docker-ce-cli_27.3.1-1~ubuntu.24.04~noble_amd64.deb
+https://download.docker.com/linux/ubuntu/pool/stable/amd64/docker-buildx-plugin_0.17.1-1~ubuntu.24.04~noble_amd64.deb
+https://download.docker.com/linux/ubuntu/pool/stable/amd64/docker-ce_27.3.1-1~ubuntu.24.04~noble_amd64.deb
+https://download.docker.com/linux/ubuntu/pool/stable/amd64/docker-compose-plugin_2.29.7-1~ubuntu.24.04~noble_amd64.deb
